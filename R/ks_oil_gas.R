@@ -1,5 +1,7 @@
 # Download and combine annual data for oil and gas production from
 # the Kansas Geological Survey at http://www.kgs.ku.edu/PRS/petro/state.html
+# Author: Stephen Johnson
+# Licence: GPL-2
 
 
 # load libraries
