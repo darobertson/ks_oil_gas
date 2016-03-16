@@ -41,12 +41,10 @@ for (decade in xlsx_decades) {
 }
 
 
-# Download data from KGS website and save in
-
+# Download data from KGS website
 # All data prior to 1950 is in a single file called history.xls
 dest <- file.path(rawdatafolder, "history.xls")
 download.file("http://www.kgs.ku.edu/PRS/County/history.xls", destfile=dest, method="wget", quiet = FALSE, mode = "w",cacheOK = TRUE, extra = getOption("download.file.extra"))
-
 # All data after 1950 is in a single file per decade
 for (fname in fnames) {
         url <- paste("http://www.kgs.ku.edu/PRS/County/", fname, sep="")
@@ -56,21 +54,19 @@ for (fname in fnames) {
 
 # Load downloaded data up to 1950 into a dataframe
 fileToGet <- file.path(rawdatafolder, "history.xls")
-history.df <- readWorksheetFromFile(fileToGet, sheet=1)
-names(history.df)[names(history.df)=="YEAR"] <- "Year"  # Change case to agree with post-1950 data
-history.df$OIL_PROD <- history.df$X.OIL  #+ history.df$X.UNATTRIB_OIL
-history.df$GAS_PROD <- history.df$X.GAS  #+ history.df$X.UNATTRIB_GAS
-history.df$OIL_WELLS <- NA  # No data before 1950 but include column for later merge
-history.df$GAS_WELLS <- NA  # No data before 1950 but include column for later merge
-history.df$COUNTY <- "Statewide"  # No data by county before 1950
-history.df <- dplyr::select(history.df, COUNTY, Year, OIL_PROD, GAS_PROD)  # Drop redundant columns
-history.df <- dplyr::filter(history.df, as.numeric(Year) < 1950)  # Drop data from after 1950. Will be replaced by county data
-history.df <- tidyr::gather(history.df, "Measure", "Value", -COUNTY, -Year)  # Reshape to long format
-history.df$Value <- as.numeric(history.df$Value)
-history.df$Year <- as.character(history.df$Year)
-history.df$COUNTY <- as.character(history.df$COUNTY)
-
-KS_oil_pre1950.df <- history.df
+KS_oil_pre1950.df <- readWorksheetFromFile(fileToGet, sheet=1)
+names(KS_oil_pre1950.df)[names(KS_oil_pre1950.df)=="YEAR"] <- "Year"  # Change case to agree with post-1950 data
+KS_oil_pre1950.df$OIL_PROD <- KS_oil_pre1950.df$X.OIL  #+ KS_oil_pre1950.df$X.UNATTRIB_OIL
+KS_oil_pre1950.df$GAS_PROD <- KS_oil_pre1950.df$X.GAS  #+ KS_oil_pre1950.df$X.UNATTRIB_GAS
+KS_oil_pre1950.df$OIL_WELLS <- NA  # No data before 1950 but include column for later merge
+KS_oil_pre1950.df$GAS_WELLS <- NA  # No data before 1950 but include column for later merge
+KS_oil_pre1950.df$COUNTY <- "Statewide"  # No data by county before 1950
+KS_oil_pre1950.df <- dplyr::select(KS_oil_pre1950.df, COUNTY, Year, OIL_PROD, GAS_PROD)  # Drop redundant columns
+KS_oil_pre1950.df <- dplyr::filter(KS_oil_pre1950.df, as.numeric(Year) < 1950)  # Drop data from after 1950. Will be replaced by county data
+KS_oil_pre1950.df <- tidyr::gather(KS_oil_pre1950.df, "Measure", "Value", -COUNTY, -Year)  # Reshape to long format
+KS_oil_pre1950.df$Value <- as.numeric(KS_oil_pre1950.df$Value)
+KS_oil_pre1950.df$Year <- as.character(KS_oil_pre1950.df$Year)
+KS_oil_pre1950.df$COUNTY <- as.character(KS_oil_pre1950.df$COUNTY)
 
 # Load data from post 1950
 KS_oil_post1950.df <- data.frame(COUNTY=character())
