@@ -88,11 +88,10 @@ unzippedFiles <- gsub("19[7-9][0-9]s/", "", unzippedFiles)  # Strip off unneeded
 unzippedFiles <- unzippedFiles %>% str_subset("19[7-9][0-9].xls")  # Lose non-data files
 fnames <- c(unzippedFiles, fnames)
 fnames <- fnames %>% str_subset("[1-2][0-9][0-9][0-9].xls")
-
 for (decade in zip_decades) {
         fname <- paste(decade, "s.zip", sep="")
         fileToUnzip <- file.path(rawdatafolder, fname)
-        print(fileToUnzip)
+       # print(fileToUnzip)
         unzip(fileToUnzip, list = FALSE, junkpaths = TRUE, exdir = rawdatafolder)
 }
 
@@ -124,6 +123,7 @@ KS_oil_post1950_monthly.df$Year <- as.character(KS_oil_post1950_monthly.df$Year)
 
 # Join pre and post 1950 data into one data frame
 KS_oil_pre1950.df$Month <- 1
+KS_oil_pre1950.df <- KS_oil_pre1950.df[c("COUNTY", "Year", "Month", "Measure", "Value")]
 KS_oil_monthly.df <- dplyr::full_join(KS_oil_pre1950.df, KS_oil_post1950_monthly.df, by=c("COUNTY", "Year", "Month", "Measure", "Value"))
 
 # Save the combined data as a csv and R files
