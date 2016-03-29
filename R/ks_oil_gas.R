@@ -94,6 +94,9 @@ KS_oil_post1950.df$Measure <- as.factor(KS_oil_post1950.df$Measure)
 # Join pre and post 1950 data into one data frame
 KS_oil.df <- dplyr::full_join(KS_oil_pre1950.df, KS_oil_post1950.df, by=c("COUNTY", "Year", "Measure", "Value"))
 
+# Add a date column
+KS_oil.df$Date <- as.Date(paste(KS_oil.df$Year, 1, 1, sep="-"))
+
 # Save the combined data as a csv and R files
 dest=file.path(processeddatafolder, "KS_oil_and_gas_annual_production.csv")
 write.csv(KS_oil.df,dest,row.names=FALSE)

@@ -126,6 +126,9 @@ KS_oil_pre1950.df$Month <- 1
 KS_oil_pre1950.df <- KS_oil_pre1950.df[c("COUNTY", "Year", "Month", "Measure", "Value")]
 KS_oil_monthly.df <- dplyr::full_join(KS_oil_pre1950.df, KS_oil_post1950_monthly.df, by=c("COUNTY", "Year", "Month", "Measure", "Value"))
 
+# Add a date column
+KS_oil_monthly.df$Date <- as.Date(paste(KS_oil_monthly.df$Year, KS_oil_monthly.df$Month, 1, sep="-"))
+
 # Save the combined data as a csv and R files
 dest=file.path(processeddatafolder, "KS_oil_and_gas_monthly_production.csv")
 write.csv(KS_oil_monthly.df,dest,row.names=FALSE)
