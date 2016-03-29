@@ -133,5 +133,5 @@ write.csv(KS_oil_monthly.df,dest,row.names=FALSE)
 dest=file.path(processeddatafolder, "KS_oil_and_gas_producing_counties.csv")
 write.csv(KS_counties, dest,row.names=FALSE)
 
-dest=file.path(processeddatafolder, "KS_oil_and_gas_monthly_production_data.R")
-dump(c("KS_oil_monthly.df", "KS_counties"),file=dest)
+dest=file.path(processeddatafolder, "KS_oil_and_gas_monthly_production_data.Rdata")
+save(list=c("KS_oil_monthly.df", "KS_counties"),file=dest)
