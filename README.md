@@ -6,7 +6,7 @@
 
 The downloaded data files are saved locally and output is saved in Rdata and csv files in long format for ease of plotting in R. The script requires XLConnect, dplyr, tidyr and stringr.
 
-Dates are generated from moonth and year. Monthly data is assigned to the first of the month. Annual data is assigned to January 1.
+Dates are generated from month and year. Monthly data is assigned to the first of the month. Annual data is assigned to January 1.
 
 
 
